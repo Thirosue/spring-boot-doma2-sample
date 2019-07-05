@@ -21,7 +21,7 @@ class CodeDaoTest extends Specification {
         expect:
         def criteria = new CodeCriteria()
         def options = SelectOptions.get().offset(0).limit(10)
-        def codeList = codeDao.selectAll(criteria, options, toList())
+        def codeList = codeDao.selectAll(criteria, "", options, toList())
         Assert.notNull(codeList)
     }
 }

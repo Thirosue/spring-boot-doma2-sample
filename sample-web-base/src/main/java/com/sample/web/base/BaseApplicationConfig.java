@@ -5,6 +5,8 @@ import static com.sample.web.base.WebConst.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sample.domain.service.system.TransactionLockService;
+import com.sample.web.base.filter.TransactionLockFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.ErrorPage;
@@ -126,6 +128,14 @@ public abstract class BaseApplicationConfig
         source.registerCorsConfiguration("/**", config);
 
         val bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<TransactionLockFilter> transactionLockFilterBean(TransactionLockService transactionLockService) {
+        val filter = new TransactionLockFilter(transactionLockService);
+        val bean = new FilterRegistrationBean<TransactionLockFilter>(filter);
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }

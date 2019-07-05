@@ -5,6 +5,7 @@ import static com.sample.web.base.WebConst.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.sample.domain.exception.*;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.sample.common.util.MessageUtils;
-import com.sample.domain.exception.NoDataFoundException;
-import com.sample.domain.exception.ValidationErrorException;
 import com.sample.web.base.controller.api.resource.ErrorResourceImpl;
 import com.sample.web.base.controller.api.resource.FieldErrorResource;
 
@@ -30,6 +29,48 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class) // HTMLコントローラーの例外を除外する
 @Slf4j
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    /**
+     * APIエラーのハンドリング
+     *
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<Object> handleAPIException(Exception ex, WebRequest request) {
+        val headers = new HttpHeaders();
+        val status = HttpStatus.valueOf(Integer.valueOf(ex.getMessage()));
+        return new ResponseEntity<>(createDefaultErrorResource(null, null), headers, status);
+    }
+
+    /**
+     * 認証エラーのハンドリング
+     *
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> handleAuthException(Exception ex, WebRequest request) {
+        val headers = new HttpHeaders();
+        val status = HttpStatus.UNAUTHORIZED;
+        return new ResponseEntity<>(createDefaultErrorResource(null, null), headers, status);
+    }
+
+    /**
+     * セッション切れのハンドリング
+     *
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(SessionExpireException.class)
+    public ResponseEntity<Object> handleSessionExpireException(Exception ex, WebRequest request) {
+        val headers = new HttpHeaders();
+        val status = HttpStatus.UNAUTHORIZED;
+        return new ResponseEntity<>(createDefaultErrorResource(null, null), headers, status);
+    }
 
     /**
      * 入力チェックエラーのハンドリング
@@ -146,5 +187,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             sb.delete(length - 2, length);
 
         return sb.toString();
+    }
+
+    private static ErrorResourceImpl createDefaultErrorResource(String message, String errorCode){
+        val errorResource = new ErrorResourceImpl();
+        errorResource.setRequestId(String.valueOf(MDC.get("X-Track-Id")));
+        errorResource.setMessage(message);
+        errorResource.setErrorCode(errorCode);
+        errorResource.setFieldErrors(new ArrayList<>());
+        return errorResource;
     }
 }

@@ -103,7 +103,7 @@ public abstract class BaseSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(new CookieCsrfTokenRepository());
 
         String[] permittedUrls = { LOGIN_TIMEOUT_URL, FORBIDDEN_URL, ERROR_URL, NOTFOUND_URL, RESET_PASSWORD_URL,
-                CHANGE_PASSWORD_URL };
+                CHANGE_PASSWORD_URL, SWAGGER_URL, SWAGGER_RESOURCES_URL, SWAGGER_API_DOCS };
 
         http.authorizeRequests()
                 // エラー画面は認証をかけない

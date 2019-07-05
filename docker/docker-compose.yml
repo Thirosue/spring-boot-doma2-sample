@@ -2,6 +2,7 @@ version: '2'
 services:
     mysql:
         build: ./mysql
+        container_name: mysql
         environment:
             - MYSQL_DATABASE=sample
             - MYSQL_ROOT_USER=root

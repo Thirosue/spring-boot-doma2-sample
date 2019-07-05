@@ -251,3 +251,25 @@ CREATE TABLE IF NOT EXISTS holidays(
   , KEY idx_holidays (holiday_name, deleted_at)
 ) COMMENT='祝日';
 
+CREATE TABLE IF NOT EXISTS session(
+  session_id INT(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'セッションID'
+  , id INT(11) COMMENT 'ユーザID'
+  , cookie VARCHAR(100) NOT NULL COMMENT 'クッキーID'
+  , info VARCHAR(4000) NOT NULL COMMENT 'セッション情報'
+  , expires DATETIME NOT NULL  COMMENT '有効期限'
+  , created_by VARCHAR(50) NOT NULL COMMENT '登録者'
+  , created_at DATETIME NOT NULL COMMENT '登録日時'
+  , updated_by VARCHAR(50) DEFAULT NULL COMMENT '更新者'
+  , updated_at DATETIME DEFAULT NULL COMMENT '更新日時'
+  , deleted_by VARCHAR(50) DEFAULT NULL COMMENT '削除者'
+  , deleted_at DATETIME DEFAULT NULL COMMENT '削除日時'
+  , version INT(11) unsigned NOT NULL DEFAULT 1 COMMENT '改訂番号'
+  , PRIMARY KEY (session_id)
+  , KEY idx_session (cookie, expires)
+) COMMENT='セッション';
+
+CREATE TABLE IF NOT EXISTS transaction_lock (
+  transaction_key VARCHAR(100) NOT NULL COMMENT 'キー'
+  , expires DATETIME NOT NULL COMMENT '有効期限'
+  , PRIMARY KEY (transaction_key)
+) COMMENT='トランザクションロック';

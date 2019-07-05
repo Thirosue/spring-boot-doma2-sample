@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.Digits;
 
 import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.seasar.doma.*;
 
 import com.sample.domain.dto.common.DomaDtoImpl;
@@ -20,6 +23,7 @@ public class Staff extends DomaDtoImpl {
 
     private static final long serialVersionUID = -3762941082070995608L;
 
+    @JsonIgnore
     @OriginalStates // 差分UPDATEのために定義する
     Staff originalStates;
 
@@ -31,9 +35,11 @@ public class Staff extends DomaDtoImpl {
     String password;
 
     // 名前
+    @JsonProperty("firstName")
     String firstName;
 
     // 苗字
+    @JsonProperty("lastName")
     String lastName;
 
     // メールアドレス
@@ -44,9 +50,11 @@ public class Staff extends DomaDtoImpl {
     @Digits(fraction = 0, integer = 10)
     String tel;
 
+    @JsonIgnore
     // パスワードリセットトークン
     String passwordResetToken;
 
+    @JsonIgnore
     // トークン失効日
     LocalDateTime tokenExpiresAt;
 }

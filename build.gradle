@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "2.1.3.RELEASE"
+        springBootVersion = "2.1.6.RELEASE"
         spockVersion = "1.2-groovy-2.5"
         groovyVersion = "2.5.3"
         lombokVersion = "1.18.2"
@@ -100,27 +100,4 @@ apply plugin: "docker-compose"
 
 dockerCompose {
     useComposeFiles = ["docker/docker-compose.yml"]
-}
-
-apply plugin: com.sample.CodeGenPlugin
-
-codegen {
-    domainProjectName = "sample-domain"
-    webProjectName = "sample-web-admin"
-
-    commonDtoPackageName = "com.sample.domain.dto.common"
-    daoPackageName = "com.sample.domain.dao"
-    dtoPackageName = "com.sample.domain.dto"
-    repositoryPackageName = "com.sample.domain.repository"
-    servicePackageName = "com.sample.domain.service"
-    commonServicePackageName = "com.sample.domain.service"
-    exceptionPackageName = "com.sample.domain.exception"
-    webBasePackageName = "com.sample.web.base"
-    baseValidatorPackageName = "com.sample.domain.validator"
-    baseControllerPackageName = "com.sample.web.base.controller.html"
-    controllerPackageName = "com.sample.web.admin.controller.html"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = "4.10.2"
 }

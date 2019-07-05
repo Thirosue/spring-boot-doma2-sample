@@ -80,4 +80,17 @@ public interface WebConst {
     String STATIC_RESOURCES_URL = "/static/**";
 
     String API_BASE_URL = "/api/**";
+
+    String SWAGGER_URL = "/swagger-ui.html";
+
+    String SWAGGER_RESOURCES_URL = "/swagger-resources/**";
+
+    String SWAGGER_API_DOCS = "/v2/**";
+
+    /** ---- Cookie ---- **/
+    String SESSION_ID = "sid";
+    String FUNCTION_ID = "fid";
+
+    /** ---- Application ---- **/
+    String defaultRows = "10";
 }

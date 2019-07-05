@@ -1,8 +1,10 @@
 package com.sample.domain.repository.system;
 
 import static com.sample.domain.util.DomaUtils.createSelectOptions;
+import static com.sample.domain.util.DomaUtils.createSortString;
 import static java.util.stream.Collectors.toList;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,8 @@ public class StaffRepository extends BaseRepository {
     public Page<Staff> findAll(StaffCriteria criteria, Pageable pageable) {
         // ページングを指定する
         val options = createSelectOptions(pageable).count();
-        val data = staffDao.selectAll(criteria, options, toList());
+        val orderBy = createSortString(criteria);
+        val data = staffDao.selectAll(criteria, orderBy, options, toList());
         return pageFactory.create(data, pageable, options.getCount());
     }
 
@@ -55,6 +58,14 @@ public class StaffRepository extends BaseRepository {
     public Optional<Staff> findOne(StaffCriteria criteria) {
         return staffDao.select(criteria);
     }
+
+    /**
+     * 担当者の権限一覧を取得します。
+     *
+     * @param id
+     * @return
+     */
+    public List<StaffRole> findAllRole(Long id) { return staffRoleDao.selectByStaffId(id, toList()); }
 
     /**
      * 担当者を取得します。
@@ -93,6 +104,23 @@ public class StaffRepository extends BaseRepository {
     public Staff update(final Staff inputStaff) {
         // 1件更新
         int updated = staffDao.update(inputStaff);
+
+        if (updated < 1) {
+            throw new NoDataFoundException("staff_id=" + inputStaff.getId() + " のデータが見つかりません。");
+        }
+
+        return inputStaff;
+    }
+
+    /**
+     * 担当者のパスワードを更新します。
+     *
+     * @param inputStaff
+     * @return
+     */
+    public Staff passwordUpdate(final Staff inputStaff) {
+        // 1件更新
+        int updated = staffDao.passwordUpdate(inputStaff);
 
         if (updated < 1) {
             throw new NoDataFoundException("staff_id=" + inputStaff.getId() + " のデータが見つかりません。");

@@ -1,6 +1,7 @@
 package com.sample.domain.repository.system;
 
 import static com.sample.domain.util.DomaUtils.createSelectOptions;
+import static com.sample.domain.util.DomaUtils.createSortString;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -47,8 +48,9 @@ public class CodeRepository extends BaseRepository {
     public List<Code> fetchAll() {
         // ページングを指定する
         val pageable = Pageable.NO_LIMIT;
+        val orderBy = createSortString(new CodeCriteria());
         val options = createSelectOptions(pageable).count();
-        return codeDao.selectAll(new CodeCriteria(), options, toList());
+        return codeDao.selectAll(new CodeCriteria(), orderBy, options, toList());
     }
 
     /**
@@ -60,8 +62,9 @@ public class CodeRepository extends BaseRepository {
      */
     public Page<Code> findAll(CodeCriteria criteria, Pageable pageable) {
         // ページングを指定する
+        val orderBy = createSortString(criteria);
         val options = createSelectOptions(pageable).count();
-        val data = codeDao.selectAll(criteria, options, toList());
+        val data = codeDao.selectAll(criteria, orderBy, options, toList());
         return pageFactory.create(data, pageable, options.getCount());
     }
 

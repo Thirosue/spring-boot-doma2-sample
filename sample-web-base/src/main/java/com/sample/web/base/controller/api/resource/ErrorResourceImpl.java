@@ -17,6 +17,9 @@ public class ErrorResourceImpl extends ResourceImpl {
     // リクエストID
     String requestId;
 
+    // エラーコード
+    String errorCode;
+
     // 入力エラー
     List<FieldErrorResource> fieldErrors;
 

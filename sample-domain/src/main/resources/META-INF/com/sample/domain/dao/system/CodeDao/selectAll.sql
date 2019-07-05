@@ -36,7 +36,17 @@ AND c.code_key = /* criteria.codeKey */'01'
 /*%if criteria.codeValue != null */
 AND c.code_value = /* criteria.codeValue */'男'
 /*%end*/
-/*%if criteria.categoryKey != null && criteria.categoryKey.length() > 0 */
-AND cc.category_key = /* criteria.categoryKey */1
+/*%if criteria.codeAlias != null */
+AND c.code_alias = /* criteria.codeAlias */'male'
 /*%end*/
-ORDER BY c.code_id ASC, cc.category_key ASC, c.display_order ASC
+/*%if criteria.categoryKey != null */
+AND cc.category_key = /* criteria.categoryKey */'GNR0001'
+/*%end*/
+/*%if criteria.isInvalid != null */
+  /*%if criteria.isInvalid */
+AND c.is_invalid = 1
+  /*%else*/
+AND c.is_invalid = 0
+  /*%end*/
+/*%end*/
+/*# orderBy */

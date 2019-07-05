@@ -1,5 +1,6 @@
 package com.sample.domain.dto.system;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.seasar.doma.*;
 
 import com.sample.domain.dto.common.DomaDtoImpl;
@@ -21,19 +22,29 @@ public class Code extends DomaDtoImpl {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    // コード分類ID
+    @JsonProperty("codeCategoryId")
+    @Column(name = "code_category_id")
+    Long codeCategoryId;
+
     // コード分類キー
+    @JsonProperty("categoryKey")
     String categoryKey;
 
     // コード分類名
+    @JsonProperty("categoryName")
     String categoryName;
 
     // コードキー
+    @JsonProperty("codeKey")
     String codeKey;
 
     // コード値
+    @JsonProperty("codeValue")
     String codeValue;
 
     // エイリアス
+    @JsonProperty("codeAlias")
     String codeAlias;
 
     // 属性1
@@ -55,8 +66,10 @@ public class Code extends DomaDtoImpl {
     String attribute6;
 
     // 表示順
+    @JsonProperty("displayOrder")
     Integer displayOrder;
 
     // 無効フラグ
+    @JsonProperty("isInvalid")
     Boolean isInvalid;
 }

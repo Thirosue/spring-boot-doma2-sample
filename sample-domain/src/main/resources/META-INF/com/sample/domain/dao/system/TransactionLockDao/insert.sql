@@ -1,0 +1,1 @@
+insert into transaction_lock (transaction_key, expires) values (/* lock.key */'key', /* lock.expires */'2019-07-06T19:30:06.952986');

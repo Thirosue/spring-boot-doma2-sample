@@ -13,6 +13,7 @@ import com.sample.domain.dto.system.Staff;
 import com.sample.domain.dto.system.StaffCriteria;
 import com.sample.domain.repository.system.StaffRepository;
 import com.sample.domain.service.BaseTransactionalService;
+import org.springframework.util.StringUtils;
 
 /**
  * 担当者サービス
@@ -77,7 +78,11 @@ public class StaffService extends BaseTransactionalService {
      */
     public Staff update(final Staff inputStaff) {
         Assert.notNull(inputStaff, "inputStaff must not be null");
-        return staffRepository.update(inputStaff);
+        if(StringUtils.isEmpty(inputStaff.getPassword())) {
+            return staffRepository.update(inputStaff);
+        } else {
+            return staffRepository.passwordUpdate(inputStaff);
+        }
     }
 
     /**

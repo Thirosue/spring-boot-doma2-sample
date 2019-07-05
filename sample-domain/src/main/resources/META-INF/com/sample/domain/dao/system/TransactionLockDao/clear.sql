@@ -1,0 +1,1 @@
+DELETE FROM transaction_lock WHERE expires < /* expires */'2019-07-06T19:30:06.952986'

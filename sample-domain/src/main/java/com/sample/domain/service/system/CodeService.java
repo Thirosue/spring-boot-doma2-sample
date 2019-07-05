@@ -55,9 +55,8 @@ public class CodeService extends BaseTransactionalService {
      */
     @Transactional(readOnly = true)
     public Code findById(final Long id) {
-        Assert.notNull(id, "id must not be null");
-        return codeRepository.fetchAll().stream().filter(c -> c.getId() == id.longValue()).findFirst()
-                .orElseThrow(() -> new NoDataFoundException("id=" + id + " のデータが見つかりません。"));
+        Assert.notNull(id, "where must not be null");
+        return codeRepository.findById(id);
     }
 
     /**

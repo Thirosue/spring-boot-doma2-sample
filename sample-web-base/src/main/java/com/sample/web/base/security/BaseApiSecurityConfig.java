@@ -17,10 +17,11 @@ public abstract class BaseApiSecurityConfig extends WebSecurityConfigurerAdapter
 
         http.antMatcher(API_BASE_URL)
                 // すべてのリクエストに認証をかける
-                .authorizeRequests().anyRequest().authenticated()
+                //.authorizeRequests().anyRequest().authenticated()
                 // Basic認証をかける
-                .and().httpBasic().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                //.and().httpBasic().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 // CSRFチェックをしない
-                .and().csrf().disable();
+                //.and().csrf().disable();
+                .csrf().disable();
     }
 }

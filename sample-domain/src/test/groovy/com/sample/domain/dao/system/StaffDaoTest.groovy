@@ -29,7 +29,7 @@ class StaffDaoTest extends Specification {
         def criteria = new StaffCriteria()
         criteria.setId(-9999)
 
-        def data = staffDao.selectAll(criteria, options, toList())
+        def data = staffDao.selectAll(criteria, "", options, toList())
 
         then:
         data.size() == 0

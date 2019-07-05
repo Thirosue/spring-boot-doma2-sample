@@ -23,7 +23,7 @@ public interface StaffDao {
      * @return
      */
     @Select(strategy = SelectType.COLLECT)
-    <R> R selectAll(final StaffCriteria criteria, final SelectOptions options, final Collector<Staff, ?, R> collector);
+    <R> R selectAll(final StaffCriteria criteria, final String orderBy, final SelectOptions options, final Collector<Staff, ?, R> collector);
 
     /**
      * 担当者を1件取得します。
@@ -58,8 +58,17 @@ public interface StaffDao {
      * @param staff
      * @return
      */
-    @Update
+    @Update(exclude = {"password", "createdBy","createdAt"})
     int update(Staff staff);
+
+    /**
+     * 担当者を更新します。
+     *
+     * @param staff
+     * @return
+     */
+    @Update(exclude = {"createdBy","createdAt"})
+    int passwordUpdate(Staff staff);
 
     /**
      * 担当者を論理削除します。
@@ -78,4 +87,14 @@ public interface StaffDao {
      */
     @BatchInsert
     int[] insert(List<Staff> staffs);
+
+    /**
+     * 担当者を認証します。
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Select
+    Optional<Staff> auth(String email, String password);
 }
